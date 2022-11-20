@@ -10,6 +10,7 @@ void worstFit(int block[], int b, int process[], int p)
     for (int i = 0; i < p; i++)
     {
         int max = -1;
+        max_index = -1;
         for (int j = 0; j < b; j++)
         {
             if (block[j] - process[i] > max && block[j] - process[i] >= 0)
@@ -18,8 +19,12 @@ void worstFit(int block[], int b, int process[], int p)
                 max = block[j] - process[i];
             }
         }
-        allocation[i] = max_index;
-        block[max_index] -= process[i];
+
+        if (max_index != -1)
+        {
+            allocation[i] = max_index;
+            block[max_index] -= process[i];
+        }
     }
     cout << "PID\t\t"
          << "Size\t\t"
@@ -33,7 +38,9 @@ void worstFit(int block[], int b, int process[], int p)
         }
         else
         {
-            cout << "NA";
+            cout << i + 1 << "\t\t" << process[i] << "\t\t"
+                 << "NA"
+                 << "\n";
         }
     }
 }

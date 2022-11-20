@@ -6,10 +6,11 @@ void bestFit(int block[], int b, int process[], int p)
 {
 
     int allocation[p];
-    int min_index = 0, min;
+    int min_index, min;
     for (int i = 0; i < p; i++)
     {
         int min = 10000;
+        int min_index = -1;
         for (int j = 0; j < b; j++)
         {
             if (block[j] - process[i] < min && block[j] - process[i] >= 0)
@@ -18,8 +19,11 @@ void bestFit(int block[], int b, int process[], int p)
                 min = block[j] - process[i];
             }
         }
-        allocation[i] = min_index;
-        block[min_index] -= process[i];
+        if (min_index != -1)
+        {
+            allocation[i] = min_index;
+            block[min_index] -= process[i];
+        }
     }
     cout << "PID\t\t"
          << "Size\t\t"
@@ -33,7 +37,9 @@ void bestFit(int block[], int b, int process[], int p)
         }
         else
         {
-            cout << "NA";
+            cout << i + 1 << "\t\t" << process[i] << "\t\t"
+                 << "NA"
+                 << "\n";
         }
     }
 }

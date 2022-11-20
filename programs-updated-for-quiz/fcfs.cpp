@@ -40,8 +40,6 @@ void fcfs(process arr[], int n)
         avgTAT += TAT[i];
     }
 
-    float avgWT = 0;
-    float avgTAT = 0;
     for (int i = 0; i < n; i++)
     {
         TAT[i] = (arr[i].burst + WTprocess[i]);
