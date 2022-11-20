@@ -21,16 +21,19 @@ void worstFit(int block[], int b, int process[], int p)
         allocation[i] = max_index;
         block[max_index] -= process[i];
     }
+    cout << "PID\t\t"
+         << "Size\t\t"
+         << "Block No.\n";
     for (int i = 0; i < p; i++)
     {
         if (allocation[i] >= 0)
         {
-            cout << allocation[i] + 1 << " ";
+
+            cout << i + 1 << "\t\t" << process[i] << "\t\t" << allocation[i] + 1 << "\n";
         }
         else
         {
-            cout << "NA"
-                 << " ";
+            cout << "NA";
         }
     }
 }

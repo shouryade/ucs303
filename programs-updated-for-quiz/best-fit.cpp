@@ -21,8 +21,21 @@ void bestFit(int block[], int b, int process[], int p)
         allocation[i] = min_index;
         block[min_index] -= process[i];
     }
+    cout << "PID\t\t"
+         << "Size\t\t"
+         << "Block No.\n";
     for (int i = 0; i < p; i++)
-        cout << allocation[i] + 1 << " ";
+    {
+        if (allocation[i] >= 0)
+        {
+
+            cout << i + 1 << "\t\t" << process[i] << "\t\t" << allocation[i] + 1 << "\n";
+        }
+        else
+        {
+            cout << "NA";
+        }
+    }
 }
 
 int main()
