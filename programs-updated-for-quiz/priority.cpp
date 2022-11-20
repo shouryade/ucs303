@@ -20,36 +20,46 @@ void priorityNon(process arr[], int n)
     vector<int> gantt;
     sort(arr, arr + n, compTasks);
 
-    int delay;
     float WTprocess[n];
+    int delay;
     float TAT[n];
-    float curtime = 0;
-    for (int i = 0; i < n; i++)
+    WTprocess[0] = 0;
+    for (int i = 1; i <= n; i++)
     {
-        if (curtime <= arr[i].arrival)
-        {
-            delay = (arr[i].arrival - curtime);
-            curtime += (delay + arr[i].burst);
-            WTprocess[i] = 0;
-            gantt.pb(arr[i].pid);
-        }
-        else
-        {
-            WTprocess[i] = (curtime - arr[i].arrival);
-            curtime += (arr[i].burst);
-            gantt.pb(arr[i].pid);
-        }
+        WTprocess[i] = WTprocess[i - 1] + arr[i - 1].burst;
+        gantt.pb(arr[i - 1].pid);
     }
+    float avgWT = 0, avgTAT = 0;
 
-    float avgTAT = 0;
-    float avgWT = 0;
     for (int i = 0; i < n; i++)
     {
         avgWT += WTprocess[i];
-        TAT[i] = (WTprocess[i] + arr[i].burst);
+        TAT[i] = (arr[i].burst + WTprocess[i]);
         avgTAT += TAT[i];
     }
-    cout << ""
+
+    cout << "The average waiting time is : " << avgWT << "\n";
+    cout << "The average TAT is " << avgTAT << "\n";
+
+    cout << "PID"
+         << "\t\t"
+         << "BT"
+         << "\t\t"
+         << "CT"
+         << "\t\t"
+         << "TAT"
+         << "\t\t"
+         << "WT" << endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout << arr[i].pid + 1 << "\t\t" << arr[i].burst << "\t\t" << TAT[i] + arr[i].arrival << "\t\t" << TAT[i] << "\t\t" << WTprocess[i] << endl;
+    }
+    cout << "\n";
+    cout << "\nThe gantt chart is :\n";
+    for (auto x : gantt)
+    {
+        cout << x + 1 << " ";
+    }
 }
 
 int main()
@@ -62,6 +72,7 @@ int main()
     {
         cout << "Enter the burst time and priority of process with PID " << i + 1 << endl;
         cin >> arr[i].burst >> arr[i].priority;
+        arr[i].pid = i;
     }
     cout << endl;
     priorityNon(arr, n);

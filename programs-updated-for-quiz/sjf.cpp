@@ -17,30 +17,18 @@ bool compTasks(process a, process b)
 void sjf(process arr[], int n)
 {
     vector<int> gantt;
-    float curtime = 0;
+
     sort(arr, arr + n, compTasks);
     float WTprocess[n];
     int delay;
-
-    for (int i = 0; i < n; i++)
-    {
-        if (curtime <= arr[i].arrival)
-        {
-            delay = (arr[i].arrival - curtime);
-            curtime += (delay + arr[i].burst);
-            WTprocess[i] = 0;
-            gantt.pb(arr[i].pid);
-        }
-        else
-        {
-            WTprocess[i] = (curtime - arr[i].arrival);
-            curtime += arr[i].burst;
-            gantt.pb(arr[i].pid);
-        }
-    }
-
-    float avgWT = 0, avgTAT = 0;
     float TAT[n];
+    WTprocess[0] = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        WTprocess[i] = WTprocess[i - 1] + arr[i - 1].burst;
+        gantt.pb(arr[i - 1].pid);
+    }
+    float avgWT = 0, avgTAT = 0;
 
     for (int i = 0; i < n; i++)
     {
@@ -66,7 +54,7 @@ void sjf(process arr[], int n)
          << "WT" << endl;
     for (int i = 0; i < n; i++)
     {
-        cout << gantt[i] << "\t\t" << arr[i].burst << "\t\t" << TAT[i] + arr[i].arrival << "\t\t" << TAT[i] << "\t\t" << WTprocess[i] << endl;
+        cout << arr[i].pid + 1 << "\t\t" << arr[i].burst << "\t\t" << TAT[i] + arr[i].arrival << "\t\t" << TAT[i] << "\t\t" << WTprocess[i] << endl;
     }
     cout << "\n";
     cout << "\nThe gantt chart is :\n";

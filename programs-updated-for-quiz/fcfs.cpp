@@ -23,27 +23,23 @@ void fcfs(process arr[], int n)
     sort(arr, arr + n, compTasks);
 
     float WTprocess[n];
-    float curtime = 0;
-    float delay;
+    int delay;
+    float TAT[n];
+    WTprocess[0] = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        WTprocess[i] = WTprocess[i - 1] + arr[i - 1].burst;
+        gantt.pb(arr[i - 1].pid);
+    }
+    float avgWT = 0, avgTAT = 0;
 
     for (int i = 0; i < n; i++)
     {
-        if (curtime <= arr[i].arrival)
-        {
-            delay = (arr[i].arrival - curtime);
-            curtime += (arr[i].burst + delay);
-            WTprocess[i] = 0;
-            gantt.pb(arr[i].pid);
-        }
-        else
-        {
-            WTprocess[i] = curtime - arr[i].arrival;
-            curtime += arr[i].burst;
-            gantt.pb(arr[i].pid);
-        }
+        avgWT += WTprocess[i];
+        TAT[i] = (arr[i].burst + WTprocess[i]);
+        avgTAT += TAT[i];
     }
 
-    int TAT[n];
     float avgWT = 0;
     float avgTAT = 0;
     for (int i = 0; i < n; i++)
