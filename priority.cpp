@@ -16,7 +16,7 @@ bool compTasks(process a, process b)
 {
     if (a.arrival == b.arrival)
     {
-        return a.priority > b.priority;
+        return a.priority < b.priority;
     }
     return a.arrival < b.arrival;
 }
